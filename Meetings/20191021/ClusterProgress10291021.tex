@@ -1,7 +1,5 @@
 \documentclass{beamer}
 
-\input{../preamble}
-
 \usetheme{Copenhagen}
 \usecolortheme{beaver}
 
@@ -9,7 +7,7 @@
 \usepackage{subcaption}
 
 \title{Cluster Progress}
-\date{\today}
+\date{Oct 21 2019}
 
 \begin{document}
 
@@ -27,13 +25,13 @@
 
   \begin{itemize}
   \item The fans were cleaned, but this didn't seem to have an effect.
-  \item The PSU's don't seem to be the issue, as was initially suspected. 
+  \item The PSU's don't seem to be the issue, as was initially suspected.
     \begin{itemize}
     \item The PSU's in the CE and the SE were identical, so I swapped the working PSU's from the SE into the CE.
-      \item There was no change in the state of the CE, unfortunately. 
-    \end{itemize} 
+      \item There was no change in the state of the CE, unfortunately.
+    \end{itemize}
   \item When the power button is pressed, all hard drive slot LED's light up even if the slot is empty.
-    %they light up green - not blue for activity. Its hard to find documentation for this but its either connection or error I think. 
+    %they light up green - not blue for activity. Its hard to find documentation for this but its either connection or error I think.
     % the documentation website doesnt exist anymore (revamped), i couldnt find physical documentation either.
   \item This issue is still under investigation to find the root cause and a potential fix.
     %talked to Eric - probably a bad wire/connection or CPU
@@ -48,9 +46,9 @@
 
   \begin{itemize}
   \item The RAID Controller has again entered a crit fail state, though NAS-1 isn't in emergency mode this time.
-    \item This issue is still under investigation as well. 
+    \item This issue is still under investigation as well.
     \end{itemize}
-  
+
   \end{frame}
 %-----------END NAS-1---------
 
@@ -63,4 +61,4 @@
 
 \end{document}
 
-%Still working on the list of scripts/data - theres a lot and NAS-0 usually connects to ethernet through the CE, which is down currently. 
+%Still working on the list of scripts/data - theres a lot and NAS-0 usually connects to ethernet through the CE, which is down currently.
