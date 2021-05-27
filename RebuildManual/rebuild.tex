@@ -1,6 +1,7 @@
-\documentclass[12pt]{article}
+%Copy&Paste into a LaTex processor (Overleaf.com) for easy reading.
 
-\input{defaultPream}
+
+\documentclass[12pt]{article}
 
 \usepackage{float}
 \usepackage{makecell}
@@ -11,6 +12,9 @@
 \usepackage{multicol}
 \usepackage{graphicx}
 \usepackage{titling}
+\usepackage{hyperref}
+
+\hypersetup{linktok=all}
 
 \begin{document}
 
@@ -53,7 +57,7 @@ as the HEP group's primary storage center, the cluster is associated with the
 Open Science Grid, which allows researchers from across the globe to run compute
 jobs on our machine. The cluster is glued together with the cluster-building Linux distribution
 Rocks. Rocks has its base in CentOS with additional features that ease the
-creation of computing clusters. 
+creation of computing clusters.
 
 \begin{multicols}{2}
 
@@ -140,7 +144,7 @@ copied into the old backup of NAS-0, effectively updating it.
   colframe=black, coltitle=green]
   \begin{minted}{bash}
     rsync -av --exclude '/mnt' / /mnt/nas1/SEBackup-20180803
-  \end{minted}  
+  \end{minted}
 \end{tcolorbox}
 
 \begin{tcolorbox}[title=Backup the server partition of NAS-0 (executed in CE),
@@ -229,7 +233,7 @@ the router.
 \qq The kernel DVD made earlier will be used to boot the CE into the Anaconda
 installer. Before the CE can be booted into the DVD, its boot order must
 configured to prioritize booting from its disc drive. It's BIOS can be accessed
-by spamming the DELETE key on startup. 
+by spamming the DELETE key on startup.
 
 \qq Once the CE's boot order has been properly configured, the kernel DVD may be
 inserted and the CE booted. The CE will then boot into the Anaconda installer
@@ -274,7 +278,7 @@ configuration takes place behind the ``Configure...'' button:
 \qq With this configuration in place, select \textit{Save} and switch on the
 ethernet connection. If the ``Current host name'' text box contains
 ``uscms1.fltech-grid3.fit.edu'', the hostname of the cluster, then the CE should
-be connected to the internet, and the installation can continue! 
+be connected to the internet, and the installation can continue!
 
 \subsection{Private Network Configuration}
 
@@ -522,7 +526,7 @@ is shown in Table \ref{tab:bootOrderNodes}.
 
 %\qq Now that the boot order of all the nodes has been corrected, we're going to
 %reinstall Rocks onto the CE. With a fresh CE, we can boot the nodes up with {\tt
-%  insert-ethers} running and get them sorted properly. 
+%  insert-ethers} running and get them sorted properly.
 %
 %\qq All the nodes, except for {\tt compute-1-9} and {\tt compute-2-9}, have been
 %brought under control of the CE!
@@ -576,7 +580,7 @@ just booting into NAS-0 normally to replace the drive, then we should be good to
 go. We'll also be making note of what all the various groups are named to we can
 keep track of them in the installer.
 
-\qq REPLACING NAS-0 OS DRIVE: NAS-0's RAID card is accessible via {\tt tw\_cli}. 
+\qq REPLACING NAS-0 OS DRIVE: NAS-0's RAID card is accessible via {\tt tw\_cli}.
 We investigated the health of the OS RAID by running {\tt tw\_cli /c0/u0 show},
 which reported that the array was degraded; unit {\tt u0-0} was DEGRADED, while
 unit {\tt u0-1}, said to be in port 1, was OK. To formally remove the degraded
@@ -612,14 +616,14 @@ file and load the Anaconda installer.
 
 \qq The installer decided to automatically begin the installation. Some
 {\tt /dev/sda} stuff flashed by without any {\tt /dev/sdb} stuff, so it appears
-to have figured itself out. 
+to have figured itself out.
 
 \begin{tcolorbox}[title=NOTE, colback=white, colframe=blue]
   Do not forget to set the root password during the
   install! If it is not entered before the install is completed, it can be set
-  using Rocks commands on the CE: 
+  using Rocks commands on the CE:
   \begin{itemize}
-  \item {\tt rocks set host sec\_attr compute-x-x attr=root\_pw} 
+  \item {\tt rocks set host sec\_attr compute-x-x attr=root\_pw}
   \item {\tt rocks sync host sec\_attr compute-x-x}
   \end{itemize}
 \end{tcolorbox}
@@ -630,7 +634,7 @@ to have figured itself out.
   The root password of the nodes may not have been set (they cannot be
   directly accessed from themselves). They can be accessed, however, from the
   CE. To set the root password, simply ssh into a node from the CE with {\tt ssh
-    compute-[0-1]-[0-9]} and run {\tt passwd} to set the root password. 
+    compute-[0-1]-[0-9]} and run {\tt passwd} to set the root password.
 \end{tcolorbox}
 
 \qq Since the UPSs are having problems providing power for all the nodes at
@@ -664,7 +668,7 @@ without begin computed.
 %\qq We've got the bare minimum set up to start playing with condor! Let's see
 %what we can do. We installed ROCKS onto the CE with the Condor Roll, so it's
 %already on the system. Running a {\tt condor\_status} shows that condor already
-%recognizes all the nodes' CPUs! Very nice. 
+%recognizes all the nodes' CPUs! Very nice.
 %
 %\qq I'm following the HT-Condor installation instructions provided by OSG
 %(https://opensciencegrid.org/docs/compute-element/install-htcondor-ce/). Before
@@ -683,7 +687,7 @@ without begin computed.
 %\qq We tried to run a condor job on the CE to see what would happen, but it
 %didn't work. Turns out, even though the nodes' CPUs are seen by condor, it
 %doesn't look like condor is installed on the nodes! They don't have {\tt
-%  /etc/condor/config.d/00personal\_condor.config} files. 
+%  /etc/condor/config.d/00personal\_condor.config} files.
 %
 %\qq After
 
@@ -745,14 +749,14 @@ same result:
 
 \begin{tcolorbox}[colback=white, colframe=black]
 \begin{minted}{bash}
-  grub2-install --no-floppy /dev/sda 
+  grub2-install --no-floppy /dev/sda
 \end{minted}
 \begin{minted}{bash}
-  grub2-install  --no-floppy /dev/sdb 
+  grub2-install  --no-floppy /dev/sdb
 \end{minted}
 \tcblower
 {\tt grub2-install: error: /usr/lib/grub/i386-pc/modinfo.sh doesn't
-  exist. Please specify --target or --directory.} 
+  exist. Please specify --target or --directory.}
 \end{tcolorbox}
 
 Investigating that path, {\tt /usr/lib/grub} comes up empty. To
@@ -770,7 +774,7 @@ installer is running that command, the following command was run:
 \end{tcolorbox}
 
 \qq I'm trying to run the installer's command again while specifying the
-location of the file it needs: 
+location of the file it needs:
 
 \begin{tcolorbox}[colback=white, colframe=black]
   \begin{minted}{bash}
@@ -783,7 +787,7 @@ location of the file it needs:
     directory.}
 \end{tcolorbox}
 
-Hmm, let's see if that file exists anywhere with: 
+Hmm, let's see if that file exists anywhere with:
 
 \begin{tcolorbox}[colback=white, colframe=black]
   \begin{minted}{bash}
@@ -794,7 +798,7 @@ Hmm, let's see if that file exists anywhere with:
 \end{tcolorbox}
 
 Ah ha! Let's run the installer's command again, but the directory will be
-changed to {\tt /mnt/sysimage/usr/lib/grub/i386-pc}: 
+changed to {\tt /mnt/sysimage/usr/lib/grub/i386-pc}:
 
 \begin{tcolorbox}[colback=white, colframe=black]
   \begin{minted}{bash}
@@ -806,7 +810,7 @@ changed to {\tt /mnt/sysimage/usr/lib/grub/i386-pc}:
 \end{tcolorbox}
 
 Now I'm getting the same error as the installer! Let's try with {\tt
-  /dev/sdb}: 
+  /dev/sdb}:
 
 \begin{tcolorbox}[colback=white, colframe=black]
   \begin{minted}{bash}
@@ -878,7 +882,7 @@ installing and setting up Apache.
 installation failed. I tried a {\tt yum update} and a {\tt yum clean all}, but the
 clean just confirmed that there was a serious problem. Now yum reports that
 {\tt mirrors.centos.org} cannot be resolved. {\tt yum repolist all} also runs into
-the same issue; only the 5 recommended steps are listed. 
+the same issue; only the 5 recommended steps are listed.
 
 \qq Turns out {\tt /etc/resolv.conf} was blank, and, amazingly, adding
 {\tt nameserver 9.9.9.9} to it fixed the problem. I wonder if that same file is
@@ -901,7 +905,7 @@ that worked on NAS-1.
 
 \qq The Rocks installation CD on the CE suddenly has internet!  The IP is
 163.118.42.1/25, the broadcast IP is 163.118.42.127, and the gateway IP is
-163.118.42.126 
+163.118.42.126
 
 \begin{tcolorbox}[title=Enable Internet in Boot CD, colback=white,
   colframe=black, coltitle=green]
@@ -955,7 +959,7 @@ report that CentOS 7 is installed on the system. Hmm. Did the original install
 do something? Additionally, the {\tt /mnt/sdb\_root/boot} directory is
 blank. While THAT boot directory is blank, however, the specific boot partition
 of {\tt /dev/sdb}, {\tt /dev/sdb1}, is fully populated with an {\tt el7} image
-and an updated grub. 
+and an updated grub.
 
 \qq To enable ssh on a Ubuntu LiveCD, install {\tt openssh-server} with {\tt
   sudo apt install openssh-server}, and check to make sure the service is running
@@ -1009,7 +1013,7 @@ loaded beforehand. We have that file, but how do we load it properly?
 \qq I wonder what happens if we use one of the {\tt initramfs} files with {\tt
   initrd} instead of just the plain {\tt initrd} image. Also, I'm gonna try to
 boot the rescue pair. It worked! I've booted into the rescue image! I think that
-might mean the images aren't ENTIRELY busted. 
+might mean the images aren't ENTIRELY busted.
 
 \qq Something interesting I've noticed: the {\tt /sysroot} directory seems to be
 the miscellaneous configuration files from {\tt (hd1,msdos1)} from the
@@ -1050,14 +1054,14 @@ all the nodes back in 2014. They said, after running {\tt insert-ethers
 disc into a node and booted into it. When the disc was loaded, the node sent out
 a DHCP request that was then picked up by insert-ethers. Let's see about trying
 that out on compute-1-0. Since we don't have a Jumbo DVD for Rocks 7.0, I'm
-trying with the Rocks 7.0 kernel disc. 
+trying with the Rocks 7.0 kernel disc.
 
 \qq The kernel disc booted to the language selection screen as
 expected. Unfortunately, however, I seem to be stuck here. The screen requires
 that a mouse be used to select the \textit{Continue} button, but the mouse
 doesn't work (USB or PS2). *sigh* I'm gonna see about restarting the node and
 interrupting the GUI installer like I did before so I can attempt a command line
-installation. 
+installation.
 
 \qq To do a command line install, the GUI installer must be interrupted before
 it can start up. When greeted with the first splash screen, press TAB to edit
@@ -1087,7 +1091,7 @@ since the installation failed. Let's try again to see what happens.
 
 \qq Alright, new problem: {\tt insert-ethers} won't close and {\tt tmux} window
 switching won't work. I guess I ought to restart the system (Ctrl-Alt-Delete
-will bring up a GUI shutdown/restart menu). 
+will bring up a GUI shutdown/restart menu).
 
 \qq After a restart, {\tt insert-ethers} crashes on startup. It reports ``Access
 denied for user 'root'@'localhost''', which is more than a little
@@ -1112,7 +1116,7 @@ of this document.
 
 \qq We've thrown the same Rocks 7 on the node that's on the CE. We were hoping
 to get a Rocks software package ``compute node'' by pointing the installation
-source at a specific URL, but the only available one is ``minimal install''. 
+source at a specific URL, but the only available one is ``minimal install''.
 
 \qq We're gonna try installing the node from itself.
 
@@ -1177,7 +1181,7 @@ Address'' in the ``Cluster Private Network'' section from {\tt 10.1.1.1} to {\tt
   10.1.1.0}. No dice; fails when pointed at {\tt 10.1.1.0/255.255.255.0} and
 {\tt 10.1.1.0}. Actually, rereading the documentation, it says that kickstart
 files are transferred over HTTPS rather than HTTP. Let's try that setting. Nope,
-nothing. I'm gonna send the 
+nothing. I'm gonna send the
 
 \qq We've made a Hypernews post asking for help. In the mean time, we're putting
 Rocks Kernel on a node again to play with for a bit. When we turned it on, it
@@ -1186,14 +1190,14 @@ reason it gave was ``nobody cared (try booting with the {\tt irqpoll}
 option''. A quick search revealed that the error means an interrupt was not
 handled, usually a symptom of buggy firmware. To boot with the {\tt irqpoll}
 option, which will, when an interrupt is encountered, poll all interrupt
-handlers in an attempt to resolve the interruption. 
+handlers in an attempt to resolve the interruption.
 
 \qq While it doesn't seem like the CE and the Rocks node can see each other
 (they have both assigned themselves a local IP of 10.1.1.1), they can both see a
 machine with local IP 10.1.1.254 (MAC: 00:25:90:33:A3:D8). What is this machine?
 It's not NAS-0, the SE (which is off), or the network switch. Also, what's {\tt
   compute-0-0}? Well, mystery solved; I ssh-ed into 10.1.1.254 to find that it
-is NAS-1. 
+is NAS-1.
 
 \qq We're gonna try wiping all the stuff {\tt insert-ethers} has done and try
 again. The command is {\tt insert-ethers --remove <host name>}, and the list of
@@ -1243,7 +1247,7 @@ plugged in. NAS-0 can't do math! Hmm. Let's see what ZFS says about all this.
 
 \qq On startup, we got a ZFS error: the zpool {\tt nas0} couldn't be imported
 because \\ {\tt /var/lib/dkms/zfs/0.7.5/source/dkms.conf} doesn't exist. To see if
-a {\tt dkms.conf} exists anywhere on NAS-0, we ran: 
+a {\tt dkms.conf} exists anywhere on NAS-0, we ran:
 
 \begin{tcolorbox}[colback=white, colframe=black]
   \begin{minted}{bash}
@@ -1253,7 +1257,7 @@ a {\tt dkms.conf} exists anywhere on NAS-0, we ran:
   {\tt /usr/src/spl-0.7.5/dkms.conf} \\
   {\tt /usr/src/spl-0.7.9/dkms.conf} \\
   {\tt /usr/src/zfs-0.7.9/dkms.conf} \\
-  {\tt /var/lib/dkms/zfs/0.7.9/build/dkms.conf} \\ 
+  {\tt /var/lib/dkms/zfs/0.7.9/build/dkms.conf} \\
 \end{tcolorbox}
 
 What's suspicious here, is that several of these files seem to be of a newer
@@ -1265,7 +1269,7 @@ built and installed modules are different! I suspect a version conflict because
 {\tt dkms status} identifies as version 0.7.5, while all but one of the {\tt
   dkms.conf} files available are version 0.7.9. Additionally, the {\tt /var}
 {\tt dkms.conf} file is under a {\tt build} directory, which gives further
-credence to {\tt dkms status}'s warning. 
+credence to {\tt dkms status}'s warning.
 
 \qq We embarked upon a spelunking expedition to investigate what happened to\\
 {\tt /var/lib/dkms/zfs/0.7.5/source/dkms.conf}, and found something of
@@ -1285,7 +1289,7 @@ absent.
 \qq We have a question to answer to help us diagnose the cause of the problem:
 Is ZFS telling DKMS to look in the wrong spot, or is DKMS looking in the wrong
 spot all on its own? Let's find where DKMS is told to check for {\tt dkms.conf}
-at {\tt /var/lib/dkms/zfs/0.7.5/source/dkms.conf}. 
+at {\tt /var/lib/dkms/zfs/0.7.5/source/dkms.conf}.
 
 \qq Just to see what would happen, we changed the broken symlink in {\tt
   /var/lib/dkms/zfs/0.7.5} from {\tt source -> /usr/src/zfs-0.7.5} to {\tt
@@ -1293,7 +1297,7 @@ at {\tt /var/lib/dkms/zfs/0.7.5/source/dkms.conf}.
 module, despite continued warnings proclaiming that the built and installed
 modules are different. Although the ZFS module has been added and the commands
 work, {\tt zpool list} returns no pools! Huh. Does this have to do with our jank
-method of making DKMS work, or is there something more sinister going on? 
+method of making DKMS work, or is there something more sinister going on?
 
 \qq Now that {\tt dkms.conf} can be found, let's restart NAS-0 to see what the
 ZFS boot message says now. The ZFS error saying it couldn't import the pool {\tt
@@ -1305,11 +1309,11 @@ configuration error saying to make sure that the {\tt kmod spl devel <kernel>}
 package is installed for our distribution; it failed to find {\tt spl\_config.h}
 in either\\ {\tt /usr/src/spl-0.7.9/2.6.32-431.11.2.el6.x86\_64} or {\tt
   /usr/src/spl-0.7.9}. It then failed to build the ZFS module and continued the
-normal booting process. 
+normal booting process.
 
 \qq {\tt dkms status} reports that SPL 0.7.5 and ZFS 0.7.9 have been added, but
 it warns that there is a difference between the build and installed modules of
-SPL. 
+SPL.
 
 \qq While {\tt zpool status} shows that there are no pools available, {\tt zpool
   import} happily shows us that the {\tt nas0} pool is alive and well in the
@@ -1326,26 +1330,26 @@ show that the two hot spares are damaged; they appear fine to the RAID
 card. Perhaps the two drives are merely suffering from a ZFS issue that can be
 easily corrected? Additionally, {\tt tw\_cli /c0 show} reports a further drive
 failure in {\tt p5}. Unfortunately, it insists on reporting the RAID-1 OS array
-as degraded while assigning each individual drive its own individual unit. 
+as degraded while assigning each individual drive its own individual unit.
 
 \qq While investigating {\tt /dev/sd*}, we noticed that {\tt /dev/sdb} and the
 other drives all had two partitions, {\tt /dev/sdx1} and {\tt /dev/sdx9}, while
 {\tt /dev/sda}, the drive we presumably just replaced, only has one partition,
-{\tt /dev/sda1}. 
+{\tt /dev/sda1}.
 
 \qq The root issue still appears to be that the new, replacement drive {\tt
   /dev/sda} in port 0, has been mislabeled as part of unit 1, when it ought to
 be part of unit 0 alongside the drive in port 1, {\tt /dev/sdb} to form a RAID-1
 array. The RAID-1 array still exists as unit 0, albeit in a DEGRADED state for
 the time being. Let's see what we can do about changing {\tt p0}'s unit
-affiliation from unit 1 to unit 0. 
+affiliation from unit 1 to unit 0.
 
 \qq We found some interesting instructions! It looks like we can delete the
 extra unit, unit 1, then tell the drive to make itself a part of the degraded
 array. Let's give it a shot! First, we delete unit 1: {\tt tw\_cli maint
   deleteunit c0 u1}. Then, we explicitly begin the rebuild: {\tt tw\_cli /c0/u0
   start rebuild disk=0}. Unit 0 is being properly rebuilt! The status of the
-rebuild process can be monitored with {\tt tw\_cli /c0/u0 show rebuildstatus}. 
+rebuild process can be monitored with {\tt tw\_cli /c0/u0 show rebuildstatus}.
 
 \qq The drive was successfully rebuilt! Unfortunately, two of the drives in the
 first {\tt raidz2} group decided to fail, {\tt /dev/sdg} and {\tt /dev/sdh}. We
@@ -1355,6 +1359,6 @@ those were resilvering, yet another drive, {\tt /dev/sdf}, failed in the same
 {\tt raidz2} group as the other two failed drives. We've now got three drives
 rebuilding in one {\tt raidz2} group, which has a tolerance of two drive
 failures. The progress of the scan is still increasing, however, so we remain
-hopeful. 
+hopeful.
 
 \end{document}
